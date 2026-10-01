@@ -31,7 +31,7 @@ class LeveringController extends Controller
         return view('levering.index', [
             'product'                => $product,
             'isVoorradig'            => $isVoorradig,
-            'leverancier'            => $isVoorradig ? $leveringModel->getLeverancierByProductId($productId) : null,
+            'leverancier'            => $leveringModel->getLeverancierByProductId($productId),
             'leveringen'             => $isVoorradig ? $leveringModel->getLeveringenByProductId($productId) : [],
         ]);
     }

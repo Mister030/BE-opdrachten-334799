@@ -17,14 +17,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    @if ($isVoorradig)
-                        <dl class="mb-6 space-y-1">
-                            <div><span class="font-semibold">Naam leverancier:</span> {{ $leverancier?->Naam }}</div>
-                            <div><span class="font-semibold">Contactpersoon leverancier:</span> {{ $leverancier?->ContactPersoon }}</div>
-                            <div><span class="font-semibold">Leveranciernummer:</span> {{ $leverancier?->LeverancierNummer }}</div>
-                            <div><span class="font-semibold">Mobiel:</span> {{ $leverancier?->Mobiel }}</div>
-                        </dl>
-                    @endif
+                    <dl class="mb-6 space-y-1">
+                        <div><span class="font-semibold">Naam leverancier:</span> {{ $leverancier?->Naam }}</div>
+                        <div><span class="font-semibold">Contactpersoon leverancier:</span> {{ $leverancier?->ContactPersoon }}</div>
+                        <div><span class="font-semibold">Leveranciernummer:</span> {{ $leverancier?->LeverancierNummer }}</div>
+                        <div><span class="font-semibold">Mobiel:</span> {{ $leverancier?->Mobiel }}</div>
+                    </dl>
 
                     <table class="min-w-full border border-gray-300 text-sm">
                         <thead class="bg-gray-100">

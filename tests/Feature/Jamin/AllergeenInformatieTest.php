@@ -16,11 +16,10 @@ class AllergeenInformatieTest extends TestCase
         parent::setUp();
 
         // phpunit.xml zet de database standaard op sqlite in-memory. De gebruikers
-        // staan echter in de MySQL-database van Laravel zelf en de productgegevens
-        // in de database Jamin, via de connectie `jamin`.
+        // en de productgegevens staan in de MySQL-database mvc.
         config([
             'database.default'                    => 'mysql',
-            'database.connections.mysql.database' => 'backend_lj_2',
+            'database.connections.mysql.database' => 'mvc',
         ]);
     }
 
@@ -31,7 +30,7 @@ class AllergeenInformatieTest extends TestCase
 
     private function productId(string $naam): int
     {
-        return (int) DB::connection('jamin')->selectOne(
+        return (int) DB::selectOne(
             'SELECT Id FROM Product WHERE Naam = :naam',
             ['naam' => $naam]
         )->Id;

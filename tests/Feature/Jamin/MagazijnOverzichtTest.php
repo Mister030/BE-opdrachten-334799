@@ -9,9 +9,8 @@ use Tests\TestCase;
 /**
  * Controle op het scherm Overzicht Magazijn Jamin.
  *
- * Deze test draait tegen de echte MySQL-databases: de gebruikers komen uit de
- * database van Laravel zelf, de productgegevens uit de database Jamin die met
- * het createscript is aangemaakt.
+ * Deze test draait tegen de echte MySQL-database mvc: daar staan zowel de
+ * gebruikers als de productgegevens uit het createscript.
  */
 class MagazijnOverzichtTest extends TestCase
 {
@@ -20,11 +19,10 @@ class MagazijnOverzichtTest extends TestCase
         parent::setUp();
 
         // phpunit.xml zet de database standaard op sqlite in-memory. De gebruikers
-        // staan echter in de MySQL-database van Laravel zelf en de productgegevens
-        // in de database Jamin, via de connectie `jamin`.
+        // en de productgegevens staan in de MySQL-database mvc.
         config([
             'database.default'                    => 'mysql',
-            'database.connections.mysql.database' => 'backend_lj_2',
+            'database.connections.mysql.database' => 'mvc',
         ]);
     }
 
@@ -57,7 +55,7 @@ class MagazijnOverzichtTest extends TestCase
         $inhoud   = $response->getContent();
 
         foreach (['Mintnopjes', 'Winegums', 'Zoute Ruitjes', 'Cola Flesjes'] as $naam) {
-            $productId = (int) DB::connection('jamin')->selectOne(
+            $productId = (int) DB::selectOne(
                 'SELECT Id FROM Product WHERE Naam = :naam',
                 ['naam' => $naam]
             )->Id;
