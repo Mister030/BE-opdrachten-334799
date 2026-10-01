@@ -15,11 +15,10 @@ return new class extends Migration
             return;
         }
 
+        // Het createscript werkt in database `mvc`, dezelfde database als in
+        // DB_DATABASE. Het maakt alleen de zes Jamin-tabellen (opnieuw) aan, dus
+        // de tabellen van Laravel zelf blijven staan.
         DB::unprepared(file_get_contents(database_path('migrations/create_script_jamin_1.sql')));
-
-        // Het script doet `USE Jamin`, waardoor de actieve database wijzigt.
-        // Terugzetten zodat Laravel de migrations-tabel weer kan vinden.
-        DB::unprepared('USE `' . config('database.connections.' . DB::getDefaultConnection() . '.database') . '`');
     }
 
     /**
@@ -31,10 +30,6 @@ return new class extends Migration
             return;
         }
 
-        // Het createscript maakt een eigen database `Jamin`, dus daar moeten de
-        // DROP TABLE-statements ook op uitgevoerd worden.
-        DB::unprepared('USE `Jamin`');
-
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         DB::statement('DROP TABLE IF EXISTS ProductPerAllergeen');
@@ -45,9 +40,5 @@ return new class extends Migration
         DB::statement('DROP TABLE IF EXISTS Allergeen');
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-
-        // Terug naar de database van Laravel zelf, anders kan de migrations-tabel
-        // niet bijgewerkt worden.
-        DB::unprepared('USE `' . config('database.connections.' . DB::getDefaultConnection() . '.database') . '`');
     }
 };

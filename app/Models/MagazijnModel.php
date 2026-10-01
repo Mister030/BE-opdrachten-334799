@@ -35,6 +35,6 @@ class MagazijnModel
                 AND        p.IsActief = 1
                 ORDER BY   p.Barcode ASC';
 
-        return DB::connection('jamin')->select($sql);
+        return DB::select($sql);
     }
 }

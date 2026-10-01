@@ -16,11 +16,10 @@ class LeveringInformatieTest extends TestCase
         parent::setUp();
 
         // phpunit.xml zet de database standaard op sqlite in-memory. De gebruikers
-        // staan echter in de MySQL-database van Laravel zelf en de productgegevens
-        // in de database Jamin, via de connectie `jamin`.
+        // en de productgegevens staan in de MySQL-database mvc.
         config([
             'database.default'                    => 'mysql',
-            'database.connections.mysql.database' => 'backend_lj_2',
+            'database.connections.mysql.database' => 'mvc',
         ]);
     }
 
@@ -31,7 +30,7 @@ class LeveringInformatieTest extends TestCase
 
     private function productId(string $naam): int
     {
-        return (int) DB::connection('jamin')->selectOne(
+        return (int) DB::selectOne(
             'SELECT Id FROM Product WHERE Naam = :naam',
             ['naam' => $naam]
         )->Id;
@@ -67,6 +66,12 @@ class LeveringInformatieTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Er is van dit product op dit moment geen voorraad aanwezig, de verwachte eerstvolgende levering is: 30-04-2023');
+
+        // Velden boven de tabel, ook als er geen voorraad is.
+        $response->assertSee('Basset');
+        $response->assertSee('Joyce Stelterberg');
+        $response->assertSee('L1023845773');
+        $response->assertSee('06-48293823');
 
         // Na 4 seconden doorverwijzen naar Overzicht Magazijn Jamin.
         $response->assertSee('content="4;url=' . route('magazijn.index') . '"', false);
